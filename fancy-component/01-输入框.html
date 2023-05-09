@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fancy-components</title>
+  
+</head>
+<body>
+  <!-- web component规定 自定义元素名称必须以-连接 -->
+  <hm-input placeholder="请输入"></hm-input>
+  <script type="module">
+    // 内部是es module导出
+    import { FcTypingInput  } from "https://unpkg.com/fancy-components@0.0.23/index.js"
+    new FcTypingInput ("hm-input")
+  </script>
+</body>
+</html>
