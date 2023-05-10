@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <custom-component>
+    111
+  </custom-component>
+  <script>
+    customElements.define("custom-component", class extends HTMLElement {
+      constructor() { // 相当于vue的setup
+        super()
+      }
+
+      // 当组件被剪切时调用。 adoptNode()
+      // 只有移动到新的文档才会被调用，在同一个文档中剪切时不生效的。
+      adoptedCallback() {
+        console.log("当 custom element 被移动到新的文档时，被调用")
+      }
+    })
+  </script>
+</body>
+</html>

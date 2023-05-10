@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="div" color="red">111</div>
+  <script>
+    const dom = document.getElementById("div")
+    console.log("%O", div)
+    // 额外定义的属性获取不到，在js dom对象中修改color也不会响应到html dom中
+    console.log("获取dom.color", dom.color) // undefined
+    // 我们只有使用setAttribute才可以修改额外定义的html dom attribute
+    dom.setAttribute("color", "skyblue")
+    
+    // 内置的属性可以获取到
+    console.log("获取dom.id", dom.id) // div
+  </script>
+</body>
+</html>

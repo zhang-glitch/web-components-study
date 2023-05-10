@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 我们还可以配合 :defined伪类来选中定义后的元素  :not(:defined) 来选中定义之前的元素 -->
+  <!-- 
+    为啥会有这两种状态呢？
+    当浏览器在解析dom时，对于自定义的组件，他不认识，就会被标识为未定义，当执行js代码后，定义完组件，他就会被解析。所以有两种状态
+  -->
+  <style>
+
+    /* 未定义 */
+    custom-component:not(:defined) {
+      width: 100px;
+      height: 30px;
+      background: blue;
+    }
+    /* 定义完成 */
+    custom-component:defined {
+      /* width: 100px;
+      height: 30px; */
+      background: red;
+    }
+  </style>
+</head>
+<body>
+  <custom-component>loading....</custom-component>
+  <script>
+    // 延迟两秒，然后将会出现“加载完成时”
+    setTimeout(() => {
+      customElements.define("custom-component", class extends HTMLElement {
+        constructor() {
+          super()
+        }
+      })
+    }, 2000)
+    
+    // 主要是当组件创建出来后返回一个promise对象
+    customElements.whenDefined("custom-component").then(() => {
+      document.querySelector("custom-component").innerHTML = "加载完成时"
+    }).catch((err) => {
+      // 当组件名称写错误，将会抛出错误
+      console.log(err)
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 在组件定义之前，创建一个组件元素
+    const dom = document.createElement("custom-component")
+
+    class CustomComponent extends HTMLElement {
+      constructor() {
+        super()
+      }
+    }
+    customElements.define("custom-component", CustomComponent)
+
+    console.log(dom instanceof CustomComponent) // false
+    // 升级组件后
+    customElements.upgrade(dom)
+    console.log(dom instanceof CustomComponent) // true
+  </script>
+</body>
+</html>

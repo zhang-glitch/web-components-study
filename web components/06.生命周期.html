@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <custom-component color="red" font="20px">
+    111
+  </custom-component>
+  <button id="btn">移除custom-component</button>
+  <button id="btn2">剪切</button>
+  <button id="btn3">修改color</button>
+  <button id="btn4">修改font</button>
+  <script>
+    const btn = document.getElementById("btn")
+    const btn2 = document.getElementById("btn2")
+    const btn3 = document.getElementById("btn3")
+    const btn4 = document.getElementById("btn4")
+    customElements.define("custom-component", class extends HTMLElement {
+      // 需要事先指定监听的那些属性
+      // 相当于vue中的data
+      static get observedAttributes() {return ['color', 'font']; }
+      constructor() { // 相当于vue的setup
+        super()
+      }
+
+      connectedCallback() {  // 相当于vue的mounted
+        console.log("当 custom element 首次被插入文档 DOM 时，被调用")
+        
+        // 点击按钮移除触发disconnectedCallback
+        btn.onclick = () => {
+          document.body.removeChild(this)
+        }
+        btn2.onclick = () => {
+          document.body.appendChild(document.adoptNode(this))
+        }
+        btn3.onclick = () => {
+          this.setAttribute("color", "blue")
+        }
+        btn4.onclick = () => {
+          this.setAttribute("font", "30px")
+        }
+        
+      }
+
+      disconnectedCallback() {  // 相当于vue的unmounted
+        console.log("当 custom element 从文档 DOM 中删除时，被调用")
+      }
+
+      // 当组件被剪切时调用。 adoptNode()
+      // 只有移动到新的文档才会被调用，在同一个文档中剪切时不生效的。
+      adoptedCallback() {
+        console.log("当 custom element 被移动到新的文档时，被调用")
+      }
+
+      // 初次挂载的时候也会调用，主要实现指定监听那行属性就行
+      // 注意旧值在前，新值在后
+      attributeChangedCallback(name, oval, nval) { // 相当于vue中的watch
+        console.log("当 custom element 增加、删除、修改自身属性")
+        console.log(name, oval, nval)
+        if(name == "color") { // 即使修改的值一样也会触发
+          if(oval !== nval) {
+            this.style.color = nval
+          }
+        }
+        if(name == "font") {
+          this.style.fontSize = nval
+        }
+      }
+    })
+  </script>
+</body>
+</html>

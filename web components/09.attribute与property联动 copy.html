@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <custom-component color="red" font="20px">
+    111
+  </custom-component>
+  <button id="btn3">修改color</button>
+  <div id="div">
+    custom-component中color属性值：
+  </div>
+  <script>
+    const btn3 = document.getElementById("btn3")
+    const colors = ["red", "blue", "green"]
+    customElements.define("custom-component", class extends HTMLElement {
+      // 需要事先指定监听的那些属性
+      // 相当于vue中的data
+      static get observedAttributes() {return ['color', 'font']; }
+      // 联动attribute与property
+      get color() {
+        return this.getAttribute("color")
+      }
+      set color(value) {
+        this.setAttribute("color", value)
+      }
+
+      constructor() { // 相当于vue的setup
+        super()
+      }
+
+      connectedCallback() {  // 相当于vue的mounted
+        btn3.onclick = () => {
+          this.color = colors[Math.floor(Math.random() * 3)]
+          document.getElementById("div").innerHTML = `custom-component中color属性值：${document.querySelector("custom-component").color}`
+        }
+      }
+
+      // 初次挂载的时候也会调用，主要实现指定监听那行属性就行
+      // 注意旧值在前，新值在后
+      attributeChangedCallback(name, oval, nval) { 
+        if(name == "color") { // 即使修改的值一样也会触发
+          if(oval !== nval) {
+            this.style.color = nval
+          }
+        }
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <extend-bubbles click>点击宽展fc-bubbles</extend-bubbles>
+  <script type="module">
+    // 内部是es module导出
+    import { FcBubbles  } from "https://unpkg.com/fancy-components@0.0.23/index.js"
+    new FcBubbles()
+
+    customElements.define("extend-bubbles", class extends customElements.get("fc-bubbles") {
+      constructor() {
+        super()
+        // 当前this表示该主定义组件dom本身
+        this.addEventListener("click", () => {
+          alert("点击，扩展")
+        })
+      }
+    })
+  </script>
+</body>
+</html>

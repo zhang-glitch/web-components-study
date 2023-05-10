@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 只有在定版本（36-79）的google浏览器中才可以使用 -->
+  <!-- <link rel="import" href="./01.初体验.html"> -->
+</head>
+<body>
+  <template>
+    <ul>
+      <li><slot name="slot1">默认值1</slot></li>
+      <li><slot name="slot2">默认值2</slot></li>
+    </ul>
+  </template>
+  <custom-component>
+    <p slot="slot1">取代默认值1</p>
+    <!-- <p slot="slot2">取代默认值2</p> -->
+  </custom-component>
+  <script>
+      // 获取模板html
+      const dom = document.currentScript.ownerDocument.querySelector("template").content
+
+      customElements.define("custom-component", class extends HTMLElement {
+        constructor() {
+          super()
+        }
+      })
+  </script>
+</body>
+</html>
